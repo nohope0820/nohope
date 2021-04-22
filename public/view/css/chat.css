@@ -1,0 +1,41 @@
+.content{
+	display: flex;
+}
+
+.menu > ul
+ {
+ 	margin: 0px;
+ 	padding: 0px;
+ 	list-style: none;
+ 	margin-left: 50px;
+ 	padding-top: 13px;
+ }
+ .menu > ul > li
+ {
+ 	display: flex;
+ 	border: 1px solid black;
+ }
+ 
+ .menu > ul > li > a
+ {
+ 	padding: 15px;
+ 	text-decoration: none;
+ 	color: black;
+    font-size: 14px;
+    font-weight: bold;
+ }
+  .menu > ul > li > a:hover
+  {
+  	text-decoration: underline;
+  	color: green;
+  }
+.main{ margin-left: 100px;}
+.main > span{ font-size: 17px;
+              color: black;
+              text-decoration: underline; }
+.main > .list-friend{
+	margin: 0px;
+ 	padding: 0px;
+ 	list-style: none;
+ 	margin-left: 50px;
+ 	padding-top: 13px;}
