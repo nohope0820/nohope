@@ -1,25 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-   <div class="content">
-          <!-- nội dung trái - menu -->
-          <div class="menu" style="margin-left: 200px;">
-             <ul>
-           <li><a href=""> BẠN BÈ </a></li>
-           <li><a href=""> TÌM BẠN BÈ </a></li>
-           <li><a href=""> PHÒNG </a></li>
-           <li><a href=""> TÌM PHÒNG </a></li>
-           <li><a href=""> TRANG CÁ NHÂN </a></li>
-             </ul>
-           </div>
-           <!-- nội dung chính -->
-           <div class="main">
-                <span>Danh sách bạn bè</span>
-                <ul class="list-friend">
-                     <li></li>
-
-                </ul>
-            </div>
+<div class="content">
+	<div class="content-left">
+		<ul class="menu">
+			<li><a href="{{ route('findfriend') }}">Bạn bè</a></li>
+			<li><a href="{{ route('findfriend') }}">Tìm bạn bè</a></li>
+			<li><a href="{{ route('findfriend') }}">Tạo phòng</a></li>
+			<li><a href="{{ route('findfriend') }}">Tìm phòng</a></li>
+			<li><a href="{{ route('profile') }}">Trang cá nhân</a></li>
+		</ul>
+	</div>
+	<div class="main">
+		<div class="title">Danh sách bạn bè</div>
+		<div class="list">
+			    <ul>					
+				   @foreach ($query as $rows)
+				      <li><a href="{{ url('/detail-friend/'.$rows->id) }}"><img style="width: 35px; border-radius: 50%; vertical-align: middle;margin-right: 15px;" src="{{ asset('view/img/avt.jpg') }}">{{ $rows->name }}</a></li>	 
+				   @endforeach
+			    			    	
+			    </ul>
+		</div>
+	</div>
 </div>
 
 
