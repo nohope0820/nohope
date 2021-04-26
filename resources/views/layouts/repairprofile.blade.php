@@ -20,10 +20,10 @@
 			<ul>
 				<form method="POST" action="{{ route('updateprofile') }}">
 					@csrf
-				<li><input type="text" name="address" placeholder="{{ Auth::user()->address }}"></li>
-				<li><input type="text" name="gender" placeholder="{{ Auth::user()->gender }}"></li>
-				<li><input type="text" name="graduate" placeholder="{{ Auth::user()->graduate }}"></li>
-				<input type="submit" value="Chỉnh sửa">
+				<li>Địa chỉ : <input type="text" name="address" placeholder="{{ Auth::user()->address }}" style="margin-left:37px;"></li>
+				<li>Giới tính : &nbsp; <input type="text" name="gender" placeholder="{{ Auth::user()->gender }}" style="margin-left:22px;"></li>
+				<li>Tốt nghiệp : &nbsp;<input type="text" name="graduate" placeholder="{{ Auth::user()->graduate }}" style="margin-left:10px;"></li>
+				<input type="submit" value="Chỉnh sửa" style="margin-left:90px;">
 			    </form>
 			</ul>
 		</div>

@@ -14,7 +14,7 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-   
+    <link rel="stylesheet" type="text/css" href="{{ asset('view/css/chat_room.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('view/css/find_friend.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('view/css/resultsfindfriend.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('view/css/detail-friend.css') }}">

@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 use App\Models\User;
 
 class UserRepository extends Repository
@@ -40,8 +40,13 @@ class UserRepository extends Repository
         $address = $params['address'];
         $gender = $params['gender'];
         $graduate = $params['graduate'];
+       
+ 
         $id = Auth::id();
+
         return $this->model->where('users.id', '=', $id)
-                    ->update(['address' => $address, 'gender' => $gender, 'graduate' => $graduate]);
+                    ->update(['address' => $address,
+                              'gender' => $gender,
+                              'graduate' => $graduate]);
     }
 }

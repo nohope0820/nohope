@@ -45,10 +45,11 @@ margin-left: 120px;}
                     list-style: none;
                     margin-left: 70px;
                     margin-top: 30px;
-                    width: 275px; }
+                    width: 500px; }
 .list > ul > li{
 	padding: 15px;
 	padding-left: 30px;
+	width: 500px;
 }
 .list > ul > li > a {color: black; text-decoration: underline;}
 .list > ul > li > a > img{width: 30px; border-radius: 50%;

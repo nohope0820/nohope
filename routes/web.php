@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'view\HomeController@index')->name('home');
+Route::get('/home', 'view\HomeController@index')->middleware('login')->name('home');
 
 Route::get('/find-friend', 'view\HomeController@findfriend')->name('findfriend');
 
@@ -31,3 +31,11 @@ Route::get('/profile', 'view\HomeController@profile')->name('profile');
 Route::get('/sua-ho-so', 'view\HomeController@repairprofile')->name('repairprofile');
 
 Route::post('/sua-ho-so', 'view\HomeController@updateprofilePost')->name('updateprofile');
+
+Route::get('/tao-phong', 'view\RoomController@createRoom')->name('createRoom');
+
+Route::post('/createRoom', 'view\RoomController@createRoomPost')->name('createRoomPost');
+
+Route::get('/room={id}', 'view\RoomController@chatroom')->middleware('login')->name('chatRoom');
+
+Route::get('/room', 'view\RoomController@listRoom')->middleware('login')->name('listroom');
