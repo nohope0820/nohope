@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\view;
 
+use Illuminate\Support\Facades\Auth;
 use App\Services\UserServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -23,29 +24,25 @@ class HomeController extends Controller
 
     public function index()
     {
-        $query = $this->userServices->list();
+        $id = Auth::id();
+        $query = $this->userServices->list1($id);
         return view('home', ['query' => $query]);
     }
 
-    public function findfriend()
+    public function detailfriend($customer_id)
     {
-        return view('layouts.findfriend');
-    }
-
-    public function resultfindfriend()
-    {
-        return view('layouts.resultsfindfriend');
-    }
-
-    public function detailfriend()
-    {
-        $query = $this->userServices->detail();
-        return view('layouts.detailfriend', ['query' => $query]);
+        $customer_id = request()->route('id');
+        $id = Auth::id();
+        $query = $this->userServices->detail($customer_id);
+        $record1 = $this->userServices->addfriend($id, $customer_id);
+        $check = $this->userServices->checkfriend($id, $customer_id);
+        return view('layouts.detailfriend', ['query' => $query], ['record1' => $record1])->with('check', $check);
     }
 
     public function profile()
     {
-        $query = $this->userServices->profile();
+        $id = Auth::id();
+        $query = $this->userServices->profile($id);
         return view('layouts.profile', ['query' => $query]);
     }
 
@@ -60,8 +57,9 @@ class HomeController extends Controller
         if ($validator->fails()) {
             return abort(422, $validator->errors());
         }
+        $id = Auth::id();
         $params = $this->getParams($request);
-        $query = $this->userServices->updateprofile($params);
+        $query = $this->userServices->updateprofile($id, $params);
         return redirect()->route('profile');
     }
 

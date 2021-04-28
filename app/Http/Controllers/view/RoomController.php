@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\view;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Services\RoomServices;
@@ -23,13 +24,15 @@ class RoomController extends Controller
 
     public function chatroom()
     {
-        $query = $this->roomServices->inforRoom();
+        $room_id = request()->route('id');
+        $query = $this->roomServices->inforRoom($room_id);
         return view('layouts.ChatRoom', compact('query'));
     }
 
     public function listRoom()
     {
-        $query = $this->roomServices->listRoom();
+        $id = Auth::id();
+        $query = $this->roomServices->listRoom($id);
         return view('layouts.ListRoom', compact('query'));
     }
 
@@ -39,9 +42,10 @@ class RoomController extends Controller
         if ($validator->fails()) {
             return abort(422, $validator->errors());
         }
+        $founder = Auth::id();
         $params = $this->getParams($request);
-        $query = $this->roomServices->createRoom($params);
-        $room = $this->roomServices->room($params);
+        $query = $this->roomServices->createRoom($founder, $params);
+        $room = $this->roomServices->room($founder, $params);
         $room_id = $room->id;
         return redirect(url('/room='.$room_id));
     }

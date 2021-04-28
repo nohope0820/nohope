@@ -5,9 +5,11 @@
 		<ul class="menu">
 			<li><a href="{{ route('home') }}">Bạn bè</a></li>
 			<li><a href="{{ route('findfriend') }}">Tìm bạn bè</a></li>
-			<li><a href="{{ route('findfriend') }}">Tạo phòng</a></li>
+			<li><a href="{{ route('listroom') }}">Phòng</a></li>
+			<li><a href="{{ route('createRoom') }}">Tạo phòng</a></li>
 			<li><a href="{{ route('findfriend') }}">Tìm phòng</a></li>
-			<li><a href="{{ route('findfriend') }}">Trang cá nhân</a></li>
+			<li><a href="{{ route('profile') }}">Trang cá nhân</a></li>
+			<li><a href="{{ route('friendRequest') }}">Lời mời kết bạn</a></li>
 		</ul>
 	</div>
 	<div class="main">
@@ -15,7 +17,18 @@
 		<div class="avt">
 			<img src="{{ asset('view/img/avt.jpg') }}">
 			<div class="name">{{ $rows->name }}</div>
-			<div class="button"><button>Bạn bè</button></div>
+			<div class="button">
+				
+				@if ($check == 1)
+				<a href="{{ url('unfriend/'.$rows->id) }}"><button style="background-color: blue; color: white">Bạn bè</button></a>
+				@elseif ($record1 == 0)
+				<a href="{{ url('addfriend/'.$rows->id) }}"><button>Thêm bạn bè</button></a>
+				@elseif ($record1 == 1)
+				<a href="{{ url('unfriend/'.$rows->id) }}"><button>Đã gửi lời mời kết bạn</button></a>
+				@else
+				@endif
+				
+			</div>
 		</div>
 		<hr>
 		<div class="information">

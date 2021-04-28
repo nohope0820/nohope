@@ -20,10 +20,6 @@ Auth::routes();
 
 Route::get('/home', 'view\HomeController@index')->middleware('login')->name('home');
 
-Route::get('/find-friend', 'view\HomeController@findfriend')->name('findfriend');
-
-Route::get('/result-find-friend', 'view\HomeController@resultfindfriend')->name('resultfindfriend');
-
 Route::get('/detail-friend/{id}', 'view\HomeController@detailfriend');
 
 Route::get('/profile', 'view\HomeController@profile')->name('profile');
@@ -36,6 +32,22 @@ Route::get('/tao-phong', 'view\RoomController@createRoom')->name('createRoom');
 
 Route::post('/createRoom', 'view\RoomController@createRoomPost')->name('createRoomPost');
 
+Route::get('/search', 'view\FindUserController@findfriend')->name('findfriend');
+
+Route::get('/result-find-friend', 'view\FindUserController@resultfindfriend')->name('resultfindfriend');
+
 Route::get('/room={id}', 'view\RoomController@chatroom')->middleware('login')->name('chatRoom');
 
 Route::get('/room', 'view\RoomController@listRoom')->middleware('login')->name('listroom');
+
+Route::post('/search', 'view\FindUserController@searchFriendFullText')->name('searchfriend');
+
+Route::get('/addfriend/{id}', 'view\AddController@addfriend')->name('addfriend');
+
+Route::get('/unfriend/{id}', 'view\AddController@unfriend')->name('unfriend');
+
+Route::get('/loi-moi-ket-ban', 'view\AddController@friendRequest')->name('friendRequest');
+
+Route::get('/accept/{id}', 'view\AddController@acceptFriend')->name('acceptFriend');
+
+Route::get('/deleteFriendRequest/{id}', 'view\AddController@deleteFriendRequest')->name('deleteFriendRequest');

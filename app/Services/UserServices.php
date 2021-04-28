@@ -14,23 +14,43 @@ class UserServices
         $this->userRepository = $userRepository;
     }
 
-    public function list()
+    public function list1($id)
     {
-        return $this->userRepository->list();
+        return $this->userRepository->friends($id);
     }
 
-    public function detail()
+    // public function list2($id)
+    // {
+    //     return $this->userRepository->list2($id);
+    // }
+
+    public function detail($customer_id)
     {
-        return $this->userRepository->detail();
+        return $this->userRepository->detail($customer_id);
     }
 
-    public function profile()
+    public function addfriend($id, $customer_id)
     {
-        return $this->userRepository->profile();
+        return $this->userRepository->addfriend($id, $customer_id);
     }
 
-    public function updateprofile(array $params)
+    public function checkfriend($id, $customer_id)
     {
-        return $this->userRepository->updateprofile($params);
+        return $this->userRepository->checkfriend($id, $customer_id);
+    }
+
+    public function profile($id)
+    {
+        return $this->userRepository->profile($id);
+    }
+
+    public function updateprofile($id, array $params)
+    {
+        return $this->userRepository->updateprofile($id, $params);
+    }
+
+    public function findUser(array $params)
+    {
+        return $this->userRepository->findUser($params);
     }
 }
