@@ -14,7 +14,13 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link rel="stylesheet" type="text/css" href="{{ asset('view/css/chat.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('view/css/chat_room.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('view/css/find_friend.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('view/css/resultsfindfriend.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('view/css/detail-friend.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('view/css/repair-profile.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('view/css/blog_chat.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->

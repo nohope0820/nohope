@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="content">
 	<div class="content-left">
@@ -11,21 +10,21 @@
 			<li><a href="{{ route('findfriend') }}">Tìm phòng</a></li>
 			<li><a href="{{ route('profile') }}">Trang cá nhân</a></li>
 			<li><a href="{{ route('friendRequest') }}">Lời mời kết bạn</a></li>
+
 		</ul>
 	</div>
 	<div class="main">
-		<div class="title">Danh sách bạn bè</div>
+		<div class="title">Kết quả tìm kiếm</div>
 		<div class="list">
-			    <ul>					
-				   @foreach ($query as $rows)
-				      <li><a href="{{ url('/detail-friend/'.$rows->id) }}"><img style="width: 35px; border-radius: 50%; vertical-align: middle;margin-right: 15px;" src="{{ asset('view/img/avt.jpg') }}">{{ $rows->name }}</a></li>	 
-				   @endforeach
-				  
-			    			    	
+			    <ul>
+					@foreach ($query as $rows)
+					<li><img src="{{ asset('view/img/avt.jpg') }}"> <a href="{{ url('/detail-friend/'.$rows->id) }}">{{ $rows->name }}</a> 
+			    		{{-- <button>Bạn bè</button> --}}
+			    	</li>	
+					@endforeach
+	
 			    </ul>
 		</div>
 	</div>
 </div>
-
-
 @endsection
