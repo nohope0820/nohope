@@ -13,11 +13,14 @@ class RoomRepository extends Repository
         $this->model = $room;
     }
 
-    public function store($founder, array $params)
+    /**
+     * Create a room
+     * @param array $params
+     * @return \App\Models\Room
+     */
+    public function store(array $params)
     {
-        $name = $params['name'];
-        return $this->model->insert(['name' => $name,
-                                     'founder' => $founder]);
+        return $this->model->create($params);
     }
 
     public function room($founder, array $params)

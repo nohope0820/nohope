@@ -51,3 +51,11 @@ Route::get('/loi-moi-ket-ban', 'view\AddController@friendRequest')->name('friend
 Route::get('/accept/{id}', 'view\AddController@acceptFriend')->name('acceptFriend');
 
 Route::get('/deleteFriendRequest/{id}', 'view\AddController@deleteFriendRequest')->name('deleteFriendRequest');
+
+Route::get('/them-thanh-vien/{id}', 'view\HomeController@addMemberForRoom')->name('addMemberForRoom');
+
+Route::get('/them-thanh-vien/{key}', 'view\HomeController@addMemberSearch');
+
+Route::get('/message/{id}', 'view\MessagePersonalController@message')->name('message');
+
+Route::post('/messagePost/{id}', 'view\MessagePersonalController@messagePost');

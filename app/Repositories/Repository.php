@@ -10,4 +10,9 @@ class Repository
     {
         //
     }
+
+    // public function store(array $params)
+    // {
+    //     return $this->model->create($params);
+    // }
 }

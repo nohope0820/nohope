@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Services\RoomServices;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class RoomController extends Controller
 {
@@ -22,11 +23,16 @@ class RoomController extends Controller
         return view('layouts.CreateRoom');
     }
 
-    public function chatroom()
+    public function chatroom(Request $request)
     {
-        $room_id = request()->route('id');
+        $room_id = $request->route('id');
         $query = $this->roomServices->inforRoom($room_id);
         return view('layouts.ChatRoom', compact('query'));
+    }
+
+    public function addMemberForRoom()
+    {
+        return view('layouts.AddMemberRoom');
     }
 
     public function listRoom()
@@ -42,10 +48,11 @@ class RoomController extends Controller
         if ($validator->fails()) {
             return abort(422, $validator->errors());
         }
-        $founder = Auth::id();
         $params = $this->getParams($request);
-        $query = $this->roomServices->createRoom($founder, $params);
-        $room = $this->roomServices->room($founder, $params);
+        $params['founder'] = Auth::id();
+        $fouder = $params['founder'];
+        // $query = $this->roomServices->createRoom($founder, $params);
+        $room = $this->roomServices->createRoom($params);
         $room_id = $room->id;
         return redirect(url('/room='.$room_id));
     }

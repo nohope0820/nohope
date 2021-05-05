@@ -13,11 +13,11 @@ class RoomServices
     {
         $this->roomRepository = $roomRepository;
     }
-
-    public function createRoom($founder, array $params)
+    
+    public function createRoom(array $params)
     {
         // store room
-        return $this->roomRepository->store($founder, $params);
+        return $this->roomRepository->store($params);
     }
 
     public function room($founder, array $params)
