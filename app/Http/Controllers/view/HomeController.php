@@ -7,6 +7,7 @@ use App\Services\UserServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class HomeController extends Controller
 {
@@ -29,9 +30,9 @@ class HomeController extends Controller
         return view('home', ['query' => $query]);
     }
 
-    public function detailfriend($customer_id)
+    public function detailfriend(Request $request)
     {
-        $customer_id = request()->route('id');
+        $customer_id = $request->route('id');
         $id = Auth::id();
         $query = $this->userServices->detail($customer_id);
         $record1 = $this->userServices->addfriend($id, $customer_id);
@@ -75,5 +76,10 @@ class HomeController extends Controller
     private function getParams(Request $request)
     {
         return $request->only(['address', 'gender', 'graduate']);
+    }
+
+    public function addMemberForRoom()
+    {
+        return view('layouts.AddMemberRoom');
     }
 }
