@@ -14,14 +14,15 @@
 		</ul>
 	</div>
 	<div class="main">
-		<div class="title">Danh sách bạn bè</div>
+		<div class="title">Danh sách lời mời kết bạn</div>
 		<div class="list">
-			    <ul>					
-				   @foreach ($listFriend as $rows)
-				      <li><a href="{{ url('/'.$rows->id.'-'.$rows->slug_user) }}"><img style="width: 35px; border-radius: 50%; vertical-align: middle;margin-right: 15px;" src="{{ asset('view/img/avt.jpg') }}">{{ $rows->name }}</a></li>	 
-				   @endforeach
-				  
-			    			    	
+			    <ul>		
+		
+				   @foreach ($invitation as $rows)
+				      <li><a href="{{ url('/loi-moi-ket-ban/'.$rows->id) }}"><img style="width: 35px; border-radius: 50%; vertical-align: middle;margin-right: 15px;" src="{{ asset('view/img/avt.jpg') }}">{{ $rows->name }}</a></li>
+                      <a href="{{ url('/xac-nhan-yeu-cau/'.$rows->id) }}"><button style="background-color: blue; color: white">Chấp nhận</button></a>
+					  <a href="{{ url('/huy-yeu-cau/'.$rows->id) }}"><button>Xóa bỏ</button></a>	 
+				   @endforeach		    			    	
 			    </ul>
 		</div>
 	</div>

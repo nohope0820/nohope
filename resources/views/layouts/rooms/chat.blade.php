@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="content">
 	<div class="content-left">
@@ -14,18 +13,7 @@
 		</ul>
 	</div>
 	<div class="main">
-		<div class="title">Danh sách bạn bè</div>
-		<div class="list">
-			    <ul>					
-				   @foreach ($listFriend as $rows)
-				      <li><a href="{{ url('/'.$rows->id.'-'.$rows->slug_user) }}"><img style="width: 35px; border-radius: 50%; vertical-align: middle;margin-right: 15px;" src="{{ asset('view/img/avt.jpg') }}">{{ $rows->name }}</a></li>	 
-				   @endforeach
-				  
-			    			    	
-			    </ul>
-		</div>
+	
 	</div>
 </div>
-
-
 @endsection

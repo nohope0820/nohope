@@ -2,11 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Friend;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class UserRepository extends Repository
 {
@@ -16,14 +13,15 @@ class UserRepository extends Repository
     }
 
     /**
-     * select list friend mine
-     * $id
-     * @return \App\Models\User
+     * Show list friend mine
+     * @param integer $myId
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function listFriend($id)
+    public function listFriend($myId)
     {
         $tempJoinTable = "(
-        select IF(my_ID=$id, customer_ID, my_ID) as user_id, status from friends where my_ID = $id or customer_ID = $id
+        select IF(my_ID=$myId, customer_ID, my_ID) as user_id, status from friends 
+        where my_ID = $myId or customer_ID = $myId
         ) as temp";
         return $this->model->select('users.*')->join(DB::raw($tempJoinTable), function ($join) {
                 $join->on("temp.user_id", "=", "users.id")
@@ -32,90 +30,43 @@ class UserRepository extends Repository
     }
    
     /**
-     * display detail friend
-     * $customerId
-     * @return \App\Models\User
+     * Show detail friend
+     * @param integer customerId
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function detailFriend($customerId)
     {
-        return $this->model->select('users.*')
-                    ->where('users.id', '=', $customerId)->get();
+        return $this->model->where('id', '=', $customerId)->get();
     }
 
     /**
-     * display status friend(have not friend)
-     * $customerId, $id
-     * @return \App\Models\User
+     * Show profile mine
+     * @param integer $myId
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function statusFriend($id, $customerId)
+    public function profile($myId)
     {
-        $tempJoinTable = "(
-        select IF(my_ID=$id, customer_ID, my_ID) as user_id, status 
-        from friends where (my_ID = $id and customer_ID = $customerId) or (customer_ID = $id and my_ID = $customerId)
-            ) as temp";
-            $query =  $this->model->select('users.*')->join(DB::raw($tempJoinTable), function ($join) {
-                    $join->on("temp.user_id", "=", "users.id")
-                    ->where("temp.status", "=", "0");
-            })->get();
-        return $query->count();
+        return $this->model->where('id', '=', $myId)->get();
     }
 
     /**
-     * display status friend(friend)
-     * $customerId, $id
-     * @return \App\Models\User
-     */
-    public function checkFriend($id, $customerId)
-    {
-        $tempJoinTable = "(
-        select IF(my_ID=$id, customer_ID, my_ID) as user_id, status 
-        from friends where (my_ID = $id and customer_ID = $customerId) or (customer_ID = $id and my_ID = $customerId)
-                ) as temp";
-                $query =  $this->model->select('users.*')->join(DB::raw($tempJoinTable), function ($join) {
-                        $join->on("temp.user_id", "=", "users.id")
-                        ->where("temp.status", "=", "1");
-                })->get();
-        return $query->count();
-    }
-
-    /**
-     * display profile mine
-     * $id
-     * @return \App\Models\User
-     */
-    public function profile($id)
-    {
-        return $this->model->select('users.*')
-                    ->where('users.id', '=', $id)->get();
-    }
-
-    /**
-     * update profile mine
+     * Update profile mine
      * @param array $params
-     * $id
+     * @param integer $myId
      * @return \App\Models\User
      */
-    public function updateprofile($id, array $params)
+    public function updateProfile($myId, array $params)
     {
-        $address = $params['address'];
-        $gender = $params['gender'];
-        $graduate = $params['graduate'];
-      
-        return $this->model->where('users.id', '=', $id)
-                    ->update(['address' => $address,
-                              'gender' => $gender,
-                              'graduate' => $graduate]);
+        return $this->model->where('id', '=', $myId)->update($params);
     }
 
     /**
-     * search users
-     * @param array $params
-     * $id
-     * @return \App\Models\User
+     * Search users
+     * @param string $find
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function findUser(array $params)
+    public function findUser($find)
     {
-        $find = $params['find'];
         return  $this->model->whereRaw("MATCH(name)AGAINST('.$find.' IN NATURAL LANGUAGE MODE)")->get();
     }
 }

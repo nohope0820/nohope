@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -72,6 +73,7 @@ class RegisterController extends Controller
             'gender' => ' ',
             'graduate' => ' ',
             'picture' => ' ',
+            'slug_user' => Str::slug($data['name'], '-'),
         ]);
     }
 }
