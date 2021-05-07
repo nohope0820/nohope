@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Services\RoomServices;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class RoomController extends Controller
 {
@@ -22,11 +23,14 @@ class RoomController extends Controller
         return view('layouts.CreateRoom');
     }
 
-    public function chatroom()
+    public function addMemberForRoom()
     {
-        $room_id = request()->route('id');
-        $query = $this->roomServices->inforRoom($room_id);
-        return view('layouts.ChatRoom', compact('query'));
+        return view('layouts.AddMemberRoom');
+    }
+
+    public function chatRoom()
+    {
+        return view('layouts.ChatRoom');
     }
 
     public function listRoom()
@@ -42,18 +46,20 @@ class RoomController extends Controller
         if ($validator->fails()) {
             return abort(422, $validator->errors());
         }
-        $founder = Auth::id();
         $params = $this->getParams($request);
-        $query = $this->roomServices->createRoom($founder, $params);
-        $room = $this->roomServices->room($founder, $params);
-        $room_id = $room->id;
+        // $params['founder'] = Auth::id();
+        // $fouder = $params['founder'];
+        $founder = Auth::id();
+        // $query = $this->roomServices->createRoom($founder, $params);
+        $this->roomServices->createRoom($params, $founder);
+        $room_id = $this->roomServices->informationRoom($params, $founder);
         return redirect(url('/room='.$room_id));
     }
 
     private function getValidator(Request $request)
     {
         return Validator::make($request->all(), [
-            'name' => 'bail|required|min:6|max:100|unique:rooms,name',
+            'name' => 'bail|required|min:6|max:100',
         ]);
     }
 

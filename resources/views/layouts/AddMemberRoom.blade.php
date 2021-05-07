@@ -13,7 +13,11 @@
 		</ul>
 	</div>
 	<div class="main">
-	
+		<div class="title">Thêm thành viên</div>
+		<div class="find">			
+			   <input type="text" name="addmemberroom"  placeholder="nhập thông tin cần tìm kiếm">
+			   <input type="submit" value="Tìm kiếm">
+		</div>
 	</div>
 </div>
 @endsection

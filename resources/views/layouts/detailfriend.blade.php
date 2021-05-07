@@ -27,7 +27,7 @@
 				<a href="{{ url('unfriend/'.$rows->id) }}"><button>Đã gửi lời mời kết bạn</button></a>
 				@else
 				@endif
-				
+				<a href="{{ url('message/'.$rows->id) }}"><button><i class="fa fa-comments"></i>Nhắn tin</button></a>
 			</div>
 		</div>
 		<hr>

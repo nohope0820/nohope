@@ -13,22 +13,16 @@ class RoomServices
     {
         $this->roomRepository = $roomRepository;
     }
-
-    public function createRoom($founder, array $params)
+    
+    public function createRoom(array $params, $founder)
     {
         // store room
-        return $this->roomRepository->store($founder, $params);
+        return $this->roomRepository->store($params, $founder);
     }
 
-    public function room($founder, array $params)
+    public function informationRoom(array $params, $founder)
     {
-        // store room
-        return $this->roomRepository->room($founder, $params);
-    }
-
-    public function inforRoom($room_id)
-    {
-        return $this->roomRepository->inforRoom($room_id);
+        return $this->roomRepository->informationRoom($params, $founder);
     }
 
     public function listRoom($id)

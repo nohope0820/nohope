@@ -21,6 +21,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('view/css/repair-profile.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('view/css/blog_chat.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->

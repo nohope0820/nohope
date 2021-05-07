@@ -7,6 +7,7 @@ use App\Services\UserServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class HomeController extends Controller
 {
@@ -22,21 +23,21 @@ class HomeController extends Controller
     * @return \Illuminate\Contracts\Support\Renderable
     */
 
-    public function index()
+    public function homeView()
     {
         $id = Auth::id();
-        $query = $this->userServices->list1($id);
+        $query = $this->userServices->listFriend($id);
         return view('home', ['query' => $query]);
     }
 
-    public function detailfriend($customer_id)
+    public function detailFriend(Request $request)
     {
-        $customer_id = request()->route('id');
+        $customerId = $request->route('id');
         $id = Auth::id();
-        $query = $this->userServices->detail($customer_id);
-        $record1 = $this->userServices->addfriend($id, $customer_id);
-        $check = $this->userServices->checkfriend($id, $customer_id);
-        return view('layouts.detailfriend', ['query' => $query], ['record1' => $record1])->with('check', $check);
+        $query = $this->userServices->detailFriend($customerId);
+        $status = $this->userServices->statusFriend($id, $customerId);
+        $check = $this->userServices->checkFriend($id, $customerId);
+        return view('layouts.detailfriend', ['query' => $query], ['record1' => $status])->with('check', $check);
     }
 
     public function profile()
@@ -46,12 +47,12 @@ class HomeController extends Controller
         return view('layouts.profile', ['query' => $query]);
     }
 
-    public function repairprofile()
+    public function repairProfile()
     {
-        return view('layouts.repairprofile');
+        return view('layouts.RepairProfile');
     }
 
-    public function updateprofilePost(Request $request)
+    public function updateProfilePost(Request $request)
     {
         $validator = $this->getValidator($request);
         if ($validator->fails()) {
@@ -75,5 +76,10 @@ class HomeController extends Controller
     private function getParams(Request $request)
     {
         return $request->only(['address', 'gender', 'graduate']);
+    }
+
+    public function addMemberForRoom()
+    {
+        return view('layouts.AddMemberRoom');
     }
 }

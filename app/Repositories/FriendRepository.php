@@ -13,50 +13,91 @@ class FriendRepository extends Repository
     {
         $this->model = $friend;
     }
-    public function addFriend1($id, $customer_id)
+
+    /**
+     * add friend
+     * $id, $customerId
+     * @return \App\Models\Friend
+     */
+    public function addFriend($id, $customerId)
     {
         return $this->model->insert(['my_ID' => $id,
-                                       'customer_ID' => $customer_id,
+                                       'customer_ID' => $customerId,
                                        'status' => 0]);
     }
 
-    public function detail($customer_id)
+     /**
+     * detail friend
+     * @param integer $customerId
+     * @return \App\Models\Friend
+     */
+    public function detailFriend($customerId)
     {
         return DB::table('users')->select('users.*')
-                    ->where('users.id', '=', $customer_id)->get();
+                    ->where('users.id', '=', $customerId)->get();
     }
 
-    public function addfriend($id, $customer_id)
+     /**
+     * display status friend(have not friend)
+     * @param integer $id
+     * @param integer $customerId
+     * @return \App\Models\Friend
+     */
+    public function statusFriend($id, $customerId)
     {
-        $query = $this->model->join('users', 'friends.customer_ID', '=', 'users.id')
-                           ->where('friends.customer_ID', '=', $customer_id)
-                           ->where('friends.my_ID', '=', $id)
-                           ->where('friends.status', '=', 0)->get();
+        $tempJoinTable = "(
+        select IF(my_ID=$id, customer_ID, my_ID) as user_id, status 
+        from friends where (my_ID = $id and customer_ID = $customerId) or (customer_ID = $id and my_ID = $customerId)
+            ) as temp";
+            $query =  DB::table('users')->select('users.*')->join(DB::raw($tempJoinTable), function ($join) {
+                    $join->on("temp.user_id", "=", "users.id")
+                    ->where("temp.status", "=", "0");
+            })->get();
         return $query->count();
     }
 
-    public function unfriend($id, $customer_id)
+     /**
+     * add friend
+     * @param integer $id
+     * @param integer $customerId
+     * @return \App\Models\Friend
+     */
+    public function unfriend($id, $customerId)
     {
         return $this->model->where([
                                 ['my_ID', '=', $id],
-                                ['customer_ID', '=', $customer_id],
+                                ['customer_ID', '=', $customerId],
         ])->orWhere([
-            ['my_ID', '=', $customer_id],
+            ['my_ID', '=', $customerId],
             ['customer_ID', '=', $id],
         ])->delete();
     }
-    
-    public function checkfriend($id, $customer_id)
+
+     /**
+     * display status friend(friend)
+     * @param integer $id
+     * @param integer $customerId
+     * @return \App\Models\Friend
+     */
+    public function checkFriend($id, $customerId)
     {
-        $query = $this->model->join('users', 'friends.customer_ID', '=', 'users.id')
-                           ->where('friends.customer_ID', '=', $customer_id)
-                           ->where('friends.my_ID', '=', $id)
-                           ->where('friends.status', '=', 1)
-                           ->get();
+        $tempJoinTable = "(
+        select IF(my_ID=$id, customer_ID, my_ID) as user_id, status 
+        from friends where (my_ID = $id and customer_ID = $customerId) or (customer_ID = $id and my_ID = $customerId)
+            ) as temp";
+            $query =  DB::table('users')->select('users.*')->join(DB::raw($tempJoinTable), function ($join) {
+                    $join->on("temp.user_id", "=", "users.id")
+                    ->where("temp.status", "=", "1");
+            })->get();
         return $query->count();
     }
 
 
+    /**
+     * friend request
+     * @param integer $id
+     * @return \App\Models\Friend
+     */
     public function friendRequest($id)
     {
         return $this->model->join('users', 'friends.my_ID', '=', 'users.id')
@@ -64,18 +105,30 @@ class FriendRepository extends Repository
                            ->where('friends.status', '=', 0)->get();
     }
 
-    public function acceptFriend($id, $customer_id)
+     /**
+     * accept friend request
+     * @param integer $id
+     * @param integer $customerId
+     * @return \App\Models\Friend
+     */
+    public function acceptFriend($id, $customerId)
     {
         return $this->model->where('customer_ID', '=', $id)
-                           ->where('my_ID', '=', $customer_id)
+                           ->where('my_ID', '=', $customerId)
                            ->where('status', '=', 0)
                            ->update(['status' => 1]);
     }
     
-    public function deleteFriendRequest($id, $customer_id)
+    /**
+     * delete friend request
+     * @param integer $id
+     * @param integer $customerId
+     * @return \App\Models\Friend
+     */
+    public function deleteFriendRequest($id, $customerId)
     {
         return $this->model->where('customer_ID', '=', $id)
-                           ->where('my_ID', '=', $customer_id)
+                           ->where('my_ID', '=', $customerId)
                            ->where('status', '=', 0)
                            ->delete();
     }

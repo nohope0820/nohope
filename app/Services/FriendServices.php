@@ -14,29 +14,54 @@ class FriendServices
         $this->friendRepository = $friendRepository;
     }
 
-    public function addFriend1($id, $customer_id)
+    /**
+     * add friend
+     * $id
+     * @return \App\Repositories\FriendRepository
+     */
+    public function addFriend($id, $customerId)
     {
-        return $this->friendRepository->addFriend1($id, $customer_id);
+        return $this->friendRepository->addFriend($id, $customerId);
     }
 
-    public function detail($customer_id)
+    /**
+     *detail friend
+     * $id
+     * @return \App\Repositories\FriendRepository
+     */
+    public function detailFriend($customerId)
     {
-        return $this->friendRepository->detail($customer_id);
+        return $this->friendRepository->detailFriend($customerId);
     }
 
-    public function addfriend($id, $customer_id)
+    /**
+     *display status friend(have not friend)
+     * $id
+     * @return \App\Repositories\FriendRepository
+     */
+    public function statusFriend($id, $customerId)
     {
-        return $this->friendRepository->addfriend($id, $customer_id);
+        return $this->friendRepository->statusFriend($id, $customerId);
     }
 
-    public function unFriend($id, $customer_id)
+    /**
+     * unfriend
+     * $id, $customerId
+     * @return \App\Repositories\FriendRepository
+     */
+    public function unfriend($id, $customerId)
     {
-        return $this->friendRepository->unFriend($id, $customer_id);
+        return $this->friendRepository->unFriend($id, $customerId);
     }
 
-    public function checkfriend($id, $customer_id)
+    /**
+     * display status friend(friend)
+     * $id, $customerId
+     * @return \App\Repositories\FriendRepository
+     */
+    public function checkfriend($id, $customerId)
     {
-        return $this->friendRepository->checkfriend($id, $customer_id);
+        return $this->friendRepository->checkfriend($id, $customerId);
     }
 
     
@@ -45,13 +70,13 @@ class FriendServices
         return $this->friendRepository->friendRequest($id);
     }
 
-    public function acceptFriend($id, $customer_id)
+    public function acceptFriend($id, $customerId)
     {
-        return $this->friendRepository->acceptFriend($id, $customer_id);
+        return $this->friendRepository->acceptFriend($id, $customerId);
     }
     
-    public function deleteFriendRequest($id, $customer_id)
+    public function deleteFriendRequest($id, $customerId)
     {
-        return $this->friendRepository->deleteFriendRequest($id, $customer_id);
+        return $this->friendRepository->deleteFriendRequest($id, $customerId);
     }
 }

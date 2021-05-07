@@ -17,27 +17,26 @@ class AddController extends Controller
         $this->friendServices = $friendServices;
     }
 
-    public function addfriend(Request $request)
+    public function addFriend(Request $request)
     {
-        $customer_id = request()->route('id');
+        $customerId = $request->route('id');
         $id = Auth::id();
-        $this->friendServices->addFriend1($id, $customer_id);
-        $query = $this->friendServices->detail($customer_id);
-        $record1 = $this->friendServices->addfriend($id, $customer_id);
-        $check = $this->friendServices->checkfriend($id, $customer_id);
-        return view('layouts.detailfriend', ['query' => $query], ['record1' => $record1])->with('check', $check);
-        route('profile', ['id' => 1])
+        $this->friendServices->addFriend($id, $customerId);
+        $query = $this->friendServices->detailFriend($customerId);
+        $status = $this->friendServices->statusFriend($id, $customerId);
+        $check = $this->friendServices->checkFriend($id, $customerId);
+        return view('layouts.DetailFriend', ['query' => $query], ['record1' => $status])->with('check', $check);
     }
 
-    public function unfriend(Request $request)
+    public function unFriend(Request $request)
     {
-        $customer_id = request()->route('id');
+        $customerId = $request->route('id');
         $id = Auth::id();
-        $this->friendServices->unFriend($id, $customer_id);
-        $query = $this->friendServices->detail($customer_id);
-        $record1 = $this->friendServices->addfriend($id, $customer_id);
-        $check = $this->friendServices->checkfriend($id, $customer_id);
-        return view('layouts.detailfriend', ['query' => $query], ['record1' => $record1])->with('check', $check);
+        $this->friendServices->unFriend($id, $customerId);
+        $query = $this->friendServices->detailFriend($customerId);
+        $status = $this->friendServices->statusFriend($id, $customerId);
+        $check = $this->friendServices->checkFriend($id, $customerId);
+        return view('layouts.DetailFriend', ['query' => $query], ['record1' => $status])->with('check', $check);
     }
 
     public function friendRequest(Request $request)
@@ -49,18 +48,18 @@ class AddController extends Controller
 
     public function acceptFriend(Request $request)
     {
-        $customer_id = request()->route('id');
+        $customerId = $request->route('id');
         $id = Auth::id();
-        $this->friendServices->acceptFriend($id, $customer_id);
+        $this->friendServices->acceptFriend($id, $customerId);
         $query = $this->friendServices->friendRequest($id);
         return redirect()->route('friendRequest')->with('query', $query);
     }
 
     public function deleteFriendRequest(Request $request)
     {
-        $customer_id = request()->route('id');
+        $customerId = $request->route('id');
         $id = Auth::id();
-        $this->friendServices->deleteFriendRequest($id, $customer_id);
+        $this->friendServices->deleteFriendRequest($id, $customerId);
         $query = $this->friendServices->friendRequest($id);
         return redirect()->route('friendRequest')->with('query', $query);
     }
