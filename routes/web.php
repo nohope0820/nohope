@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'view\HomeController@index')->middleware('login')->name('home');
+Route::get('/home', 'view\HomeController@homeView')->middleware('login')->name('home');
 
 Route::get('/detail-friend/{id}', 'view\HomeController@detailfriend');
 
@@ -59,3 +59,5 @@ Route::get('/them-thanh-vien/{key}', 'view\HomeController@addMemberSearch');
 Route::get('/message/{id}', 'view\MessagePersonalController@message')->name('message');
 
 Route::post('/messagePost/{id}', 'view\MessagePersonalController@messagePost');
+
+Route::post('/messagePost/{id}', 'view\MessageRoomController@messagePost');

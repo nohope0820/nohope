@@ -14,41 +14,72 @@ class UserServices
         $this->userRepository = $userRepository;
     }
 
-    public function list1($id)
+    /**
+     * display list friend mine
+     * $id
+     * @return \App\Repositories\UserRepository
+     */
+    public function listFriend($id)
     {
-        return $this->userRepository->friends($id);
+        return $this->userRepository->listFriend($id);
     }
 
-    // public function list2($id)
-    // {
-    //     return $this->userRepository->list2($id);
-    // }
-
-    public function detail($customer_id)
+    /**
+     * display detail friend
+     * $customerId
+     * @return \App\Repositories\UserRepository
+     */
+    public function detailFriend($customerId)
     {
-        return $this->userRepository->detail($customer_id);
+        return $this->userRepository->detailFriend($customerId);
     }
 
-    public function addfriend($id, $customer_id)
+    /**
+     * display status friend(have not friend)
+     * $id, $customerId
+     * @return \App\Repositories\UserRepository
+     */
+    public function statusFriend($id, $customerId)
     {
-        return $this->userRepository->addfriend($id, $customer_id);
+        return $this->userRepository->statusFriend($id, $customerId);
     }
 
-    public function checkfriend($id, $customer_id)
+    /**
+     * display status friend(friend)
+     * $id, $customerId
+     * @return \App\Repositories\UserRepository
+     */
+    public function checkFriend($id, $customerId)
     {
-        return $this->userRepository->checkfriend($id, $customer_id);
+        return $this->userRepository->checkFriend($id, $customerId);
     }
 
+    /**
+     * display profile mine
+     * $id
+     * @return \App\Repositories\UserRepository
+     */
     public function profile($id)
     {
         return $this->userRepository->profile($id);
     }
 
-    public function updateprofile($id, array $params)
+    /**
+     * update profile
+     * @param array $params
+     * $id
+     * @return \App\Repositories\UserRepository
+     */
+    public function updateProfile($id, array $params)
     {
-        return $this->userRepository->updateprofile($id, $params);
+        return $this->userRepository->updateProfile($id, $params);
     }
 
+    /**
+     * update profile
+     * @param array $params
+     * @return \App\Repositories\UserRepository
+     */
     public function findUser(array $params)
     {
         return $this->userRepository->findUser($params);

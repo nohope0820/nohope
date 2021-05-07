@@ -13,17 +13,7 @@
 		</ul>
 	</div>
 	<div class="main">
-		@foreach ($query as $rows)
-		<div class="title">{{ $rows->name }}
-			<a href="{{ url('them-thanh-vien/'.$rows->id) }}"><button><i class="fa fa-plus"></i> Thêm bạn bè</button></a></div>
-		<hr>
-		<div class="find">
-			<i class="fa fa-plus-circle"></i> 
-			   <i class="fa fa-picture-o "></i>
-			    <input type="text" name="find" placeholder="Aa">
-			   <button><i class="fa fa-paper-plane"></i> Gửi</button>
-		</div>
-		@endforeach
+	
 	</div>
 </div>
 @endsection

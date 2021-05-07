@@ -15,7 +15,12 @@ class UserRepository extends Repository
         $this->model = $user;
     }
 
-    public function friends($id)
+    /**
+     * select list friend mine
+     * $id
+     * @return \App\Models\User
+     */
+    public function listFriend($id)
     {
         $tempJoinTable = "(
         select IF(my_ID=$id, customer_ID, my_ID) as user_id, status from friends where my_ID = $id or customer_ID = $id
@@ -26,17 +31,27 @@ class UserRepository extends Repository
         })->get();
     }
    
-    public function detail($customer_id)
+    /**
+     * display detail friend
+     * $customerId
+     * @return \App\Models\User
+     */
+    public function detailFriend($customerId)
     {
         return $this->model->select('users.*')
-                    ->where('users.id', '=', $customer_id)->get();
+                    ->where('users.id', '=', $customerId)->get();
     }
 
-    public function addfriend($id, $customer_id)
+    /**
+     * display status friend(have not friend)
+     * $customerId, $id
+     * @return \App\Models\User
+     */
+    public function statusFriend($id, $customerId)
     {
         $tempJoinTable = "(
         select IF(my_ID=$id, customer_ID, my_ID) as user_id, status 
-        from friends where (my_ID = $id and customer_ID = $customer_id) or (customer_ID = $id and my_ID = $customer_id)
+        from friends where (my_ID = $id and customer_ID = $customerId) or (customer_ID = $id and my_ID = $customerId)
             ) as temp";
             $query =  $this->model->select('users.*')->join(DB::raw($tempJoinTable), function ($join) {
                     $join->on("temp.user_id", "=", "users.id")
@@ -45,11 +60,16 @@ class UserRepository extends Repository
         return $query->count();
     }
 
-    public function checkfriend($id, $customer_id)
+    /**
+     * display status friend(friend)
+     * $customerId, $id
+     * @return \App\Models\User
+     */
+    public function checkFriend($id, $customerId)
     {
         $tempJoinTable = "(
         select IF(my_ID=$id, customer_ID, my_ID) as user_id, status 
-        from friends where (my_ID = $id and customer_ID = $customer_id) or (customer_ID = $id and my_ID = $customer_id)
+        from friends where (my_ID = $id and customer_ID = $customerId) or (customer_ID = $id and my_ID = $customerId)
                 ) as temp";
                 $query =  $this->model->select('users.*')->join(DB::raw($tempJoinTable), function ($join) {
                         $join->on("temp.user_id", "=", "users.id")
@@ -58,12 +78,23 @@ class UserRepository extends Repository
         return $query->count();
     }
 
+    /**
+     * display profile mine
+     * $id
+     * @return \App\Models\User
+     */
     public function profile($id)
     {
         return $this->model->select('users.*')
                     ->where('users.id', '=', $id)->get();
     }
 
+    /**
+     * update profile mine
+     * @param array $params
+     * $id
+     * @return \App\Models\User
+     */
     public function updateprofile($id, array $params)
     {
         $address = $params['address'];
@@ -76,6 +107,12 @@ class UserRepository extends Repository
                               'graduate' => $graduate]);
     }
 
+    /**
+     * search users
+     * @param array $params
+     * $id
+     * @return \App\Models\User
+     */
     public function findUser(array $params)
     {
         $find = $params['find'];

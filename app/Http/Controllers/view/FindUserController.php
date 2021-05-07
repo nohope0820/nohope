@@ -21,10 +21,11 @@ class FindUserController extends Controller
     *
     * @return \Illuminate\Contracts\Support\Renderable
     */
+    
 
-    public function findfriend()
+    public function findFriend()
     {
-        return view('layouts.findfriend');
+        return view('layouts.FindFriend');
     }
 
     public function searchFriendFullText(Request $request)
@@ -36,7 +37,7 @@ class FindUserController extends Controller
         $params = $this->getParams($request);
         $find = $params['find'];
         $query = $this->userServices->findUser($params);
-        return view('layouts.resultsfindfriend', compact('query'));
+        return view('layouts.ListFindFriend', compact('query'));
     }
 
     private function getValidator(Request $request)
@@ -53,6 +54,6 @@ class FindUserController extends Controller
 
     public function resultfindfriend()
     {
-        return view('layouts.resultsfindfriend');
+        return view('layouts.ListFindFriend');
     }
 }
