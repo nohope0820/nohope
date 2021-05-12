@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\RoomRepository;
 
 class RoomServices
@@ -13,26 +13,30 @@ class RoomServices
     {
         $this->roomRepository = $roomRepository;
     }
-
-    public function createRoom($founder, array $params)
+    
+    /**
+     * Create rooms and add member
+     * @param array $params
+     * @return \App\Models\Room
+     */
+    public function store(array $params)
     {
-        // store room
-        return $this->roomRepository->store($founder, $params);
+        $params['founder'] = Auth::id();
+        $room = $this->roomRepository->store($params);
+        $this->roomRepository->storeMember([
+            'room_id' => $room->id,
+            'customer_id' => Auth::id()
+        ]);
+        return $room;
     }
 
-    public function room($founder, array $params)
+     /**
+     * Show list room
+     * @return \App\Repositories\RoomRepository
+     */
+    public function list($userId = null)
     {
-        // store room
-        return $this->roomRepository->room($founder, $params);
-    }
-
-    public function inforRoom($room_id)
-    {
-        return $this->roomRepository->inforRoom($room_id);
-    }
-
-    public function listRoom($id)
-    {
-        return $this->roomRepository->listRoom($id);
+        $userId = Auth::id();
+        return $this->roomRepository->list($userId);
     }
 }

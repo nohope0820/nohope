@@ -14,43 +14,55 @@ class UserServices
         $this->userRepository = $userRepository;
     }
 
-    public function list1($id)
+    /**
+     * Show list friend mine
+     * @param integer $id
+     * @return \App\Repositories\UserRepository
+     */
+    public function listFriend($myId)
     {
-        return $this->userRepository->friends($id);
+        return $this->userRepository->listFriend($myId);
     }
 
-    // public function list2($id)
-    // {
-    //     return $this->userRepository->list2($id);
-    // }
-
-    public function detail($customer_id)
+    /**
+     * Show detail friend
+     * @param integer $customerId
+     * @return \App\Repositories\UserRepository
+     */
+    public function detailOfFriend($customerId)
     {
-        return $this->userRepository->detail($customer_id);
+        return $this->userRepository->detailFriend($customerId);
     }
 
-    public function addfriend($id, $customer_id)
+    /**
+     * Show profile mine
+     * @param integer $myId
+     * @return \App\Repositories\UserRepository
+     */
+    public function profile($myId)
     {
-        return $this->userRepository->addfriend($id, $customer_id);
+        return $this->userRepository->profile($myId);
     }
 
-    public function checkfriend($id, $customer_id)
+    /**
+     * Update profile
+     * @param array $params
+     * @param integer $myId
+     * @return \App\Repositories\UserRepository
+     */
+    public function updateProfile($myId, array $params)
     {
-        return $this->userRepository->checkfriend($id, $customer_id);
+        return $this->userRepository->updateProfile($myId, $params);
     }
 
-    public function profile($id)
-    {
-        return $this->userRepository->profile($id);
-    }
-
-    public function updateprofile($id, array $params)
-    {
-        return $this->userRepository->updateprofile($id, $params);
-    }
-
+    /**
+     * Search user
+     * @param array $params
+     * @return \App\Repositories\UserRepository
+     */
     public function findUser(array $params)
     {
-        return $this->userRepository->findUser($params);
+        $find = $params['find'];
+        return $this->userRepository->findUser($find);
     }
 }

@@ -2,11 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Friend;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class UserRepository extends Repository
 {
@@ -15,10 +12,16 @@ class UserRepository extends Repository
         $this->model = $user;
     }
 
-    public function friends($id)
+    /**
+     * Show list friend mine
+     * @param integer $myId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function listFriend($myId)
     {
         $tempJoinTable = "(
-        select IF(my_ID=$id, customer_ID, my_ID) as user_id, status from friends where my_ID = $id or customer_ID = $id
+        select IF(my_ID=$myId, customer_ID, my_ID) as user_id, status from friends 
+        where my_ID = $myId or customer_ID = $myId
         ) as temp";
         return $this->model->select('users.*')->join(DB::raw($tempJoinTable), function ($join) {
                 $join->on("temp.user_id", "=", "users.id")
@@ -26,59 +29,44 @@ class UserRepository extends Repository
         })->get();
     }
    
-    public function detail($customer_id)
+    /**
+     * Show detail friend
+     * @param integer customerId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function detailFriend($customerId)
     {
-        return $this->model->select('users.*')
-                    ->where('users.id', '=', $customer_id)->get();
+        return $this->model->where('id', '=', $customerId)->get();
     }
 
-    public function addfriend($id, $customer_id)
+    /**
+     * Show profile mine
+     * @param integer $myId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function profile($myId)
     {
-        $tempJoinTable = "(
-        select IF(my_ID=$id, customer_ID, my_ID) as user_id, status 
-        from friends where (my_ID = $id and customer_ID = $customer_id) or (customer_ID = $id and my_ID = $customer_id)
-            ) as temp";
-            $query =  $this->model->select('users.*')->join(DB::raw($tempJoinTable), function ($join) {
-                    $join->on("temp.user_id", "=", "users.id")
-                    ->where("temp.status", "=", "0");
-            })->get();
-        return $query->count();
+        return $this->model->where('id', '=', $myId)->get();
     }
 
-    public function checkfriend($id, $customer_id)
+    /**
+     * Update profile mine
+     * @param array $params
+     * @param integer $myId
+     * @return \App\Models\User
+     */
+    public function updateProfile($myId, array $params)
     {
-        $tempJoinTable = "(
-        select IF(my_ID=$id, customer_ID, my_ID) as user_id, status 
-        from friends where (my_ID = $id and customer_ID = $customer_id) or (customer_ID = $id and my_ID = $customer_id)
-                ) as temp";
-                $query =  $this->model->select('users.*')->join(DB::raw($tempJoinTable), function ($join) {
-                        $join->on("temp.user_id", "=", "users.id")
-                        ->where("temp.status", "=", "1");
-                })->get();
-        return $query->count();
+        return $this->model->where('id', '=', $myId)->update($params);
     }
 
-    public function profile($id)
+    /**
+     * Search users
+     * @param string $find
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function findUser($find)
     {
-        return $this->model->select('users.*')
-                    ->where('users.id', '=', $id)->get();
-    }
-
-    public function updateprofile($id, array $params)
-    {
-        $address = $params['address'];
-        $gender = $params['gender'];
-        $graduate = $params['graduate'];
-      
-        return $this->model->where('users.id', '=', $id)
-                    ->update(['address' => $address,
-                              'gender' => $gender,
-                              'graduate' => $graduate]);
-    }
-
-    public function findUser(array $params)
-    {
-        $find = $params['find'];
         return  $this->model->whereRaw("MATCH(name)AGAINST('.$find.' IN NATURAL LANGUAGE MODE)")->get();
     }
 }

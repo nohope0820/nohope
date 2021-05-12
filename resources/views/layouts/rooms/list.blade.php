@@ -4,37 +4,21 @@
 <div class="content">
 	<div class="content-left">
 		<ul class="menu">
-			<li><a href="{{ route('home') }}">Bạn bè</a></li>
-			<li><a href="{{ route('findfriend') }}">Tìm bạn bè</a></li>
-			<li><a href="{{ route('listroom') }}">Phòng</a></li>
-			<li><a href="{{ route('createRoom') }}">Tạo phòng</a></li>
-			<li><a href="{{ route('findfriend') }}">Tìm phòng</a></li>
-			<li><a href="{{ route('profile') }}">Trang cá nhân</a></li>
-			<li><a href="{{ route('friendRequest') }}">Lời mời kết bạn</a></li>
+			<li><a href="{{ route('home.index') }}">Bạn bè</a></li>
+			<li><a href="{{ route('find-user.index') }}">Tìm bạn bè</a></li>
+			<li><a href="{{ route('room.show') }}">Phòng</a></li>
+			<li><a href="{{ url('/tao-phong') }}">Tạo phòng</a></li>
+			<li><a href="{{ route('find-user.index') }}">Tìm phòng</a></li>
+			<li><a href="{{ route('profile.index') }}">Trang cá nhân</a></li>
+			<li><a href="{{ url('/loi-moi-ket-ban') }}">Lời mời kết bạn</a></li>
 		</ul>
 	</div>
 	<div class="main">
 		<div class="title">Danh sách phòng</div>
 		<div class="list">
             <ul>
-                @foreach ($query as $rows)
-                <li style="width: 500px;"><a href="{{ url('room='.$rows->id )}}"><span>{{ $rows->name }}(ID: {{ $rows->id }})</span></a>
-                    @php
-                        $id = Auth::id();
-                        $room_id = $rows->id;
-                        $users = DB::table('room_member')->join('users', 'room_member.customer_id', '=', 'users.id')
-                                                         ->select('users.name')
-                                                         ->where('room_member.room_id', '=', $room_id)->where('room_member.customer_id', '!=', $id)
-                                                         ->get();
-                    @endphp
-                    <div>
-                    @foreach ($users as $record)
-                    {{ $record->name }},
-                    @endforeach
-                    </div>
-                   
-                    
-                </li>    
+                @foreach ($rooms as $rows)
+                <li style="width: 500px;"><a href="{{ url('room='.$rows->id )}}"><span>{{ $rows->name }}</span></a></li>    
                 @endforeach
             </ul>
 		</div>

@@ -2,42 +2,38 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
 use App\Models\Room;
+use App\Models\RoomMember;
 
 class RoomRepository extends Repository
 {
-    public function __construct(Room $room)
+    protected $roomMember;
+
+    public function __construct(Room $room, RoomMember $roomMember)
     {
         $this->model = $room;
+        $this->roomMember = $roomMember;
     }
 
-    public function store($founder, array $params)
+    /**
+     * Add member in room
+     * @param array $params
+     * @return \App\Models\RoomMember
+     */
+    public function storeMember($params)
     {
-        $name = $params['name'];
-        return $this->model->insert(['name' => $name,
-                                     'founder' => $founder]);
+        return $this->roomMember->create($params);
     }
 
-    public function room($founder, array $params)
+    /**
+     * Select list room mine
+     * @param integer $userId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function list($userId)
     {
-        $name = $params['name'];
-        return $this->model->where('name', '=', $name)
-                           ->where('founder', '=', $founder)
-                           ->orderBy('id', 'DESC')
-                           ->select('id', 'name')->first();
-    }
-
-    public function inforRoom($room_id)
-    {
-        return $this->model->where('id', '=', $room_id)->get();
-    }
-
-    public function listRoom($id)
-    {
-        return $this->model->join('room_member', 'rooms.id', '=', 'room_member.room_id')
-            ->select('rooms.id', 'rooms.name')
-            ->where('room_member.customer_id', '=', $id)->get();
+        return $this->model->join('room_members', 'rooms.id', '=', 'room_members.room_id')
+                           ->select('rooms.id', 'rooms.name')
+                           ->where('room_members.customer_id', '=', $userId)->get();
     }
 }

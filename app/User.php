@@ -24,6 +24,7 @@ class User extends Authenticatable
         'graduate',
         'picture',
         'gender',
+        'slug_user',
     ];
 
     /**

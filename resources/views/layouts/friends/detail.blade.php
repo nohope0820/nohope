@@ -3,31 +3,31 @@
 <div class="content">
 	<div class="content-left">
 		<ul class="menu">
-			<li><a href="{{ route('home') }}">Bạn bè</a></li>
-			<li><a href="{{ route('findfriend') }}">Tìm bạn bè</a></li>
-			<li><a href="{{ route('listroom') }}">Phòng</a></li>
-			<li><a href="{{ route('createRoom') }}">Tạo phòng</a></li>
-			<li><a href="{{ route('findfriend') }}">Tìm phòng</a></li>
-			<li><a href="{{ route('profile') }}">Trang cá nhân</a></li>
-			<li><a href="{{ route('friendRequest') }}">Lời mời kết bạn</a></li>
+			<li><a href="{{ route('home.index') }}">Bạn bè</a></li>
+			<li><a href="{{ route('find-user.index') }}">Tìm bạn bè</a></li>
+			<li><a href="{{ route('room.show') }}">Phòng</a></li>
+			<li><a href="{{ url('/tao-phong') }}">Tạo phòng</a></li>
+			<li><a href="{{ route('find-user.index') }}">Tìm phòng</a></li>
+			<li><a href="{{ route('profile.index') }}">Trang cá nhân</a></li>
+			<li><a href="{{ url('/loi-moi-ket-ban') }}">Lời mời kết bạn</a></li>
 		</ul>
 	</div>
 	<div class="main">
-		@foreach ($query as $rows)
+		@foreach ($detail as $rows)
 		<div class="avt">
 			<img src="{{ asset('view/img/avt.jpg') }}">
 			<div class="name">{{ $rows->name }}</div>
-			<div class="button">
-				
-				@if ($check == 1)
-				<a href="{{ url('unfriend/'.$rows->id) }}"><button style="background-color: blue; color: white">Bạn bè</button></a>
-				@elseif ($record1 == 0)
-				<a href="{{ url('addfriend/'.$rows->id) }}"><button>Thêm bạn bè</button></a>
-				@elseif ($record1 == 1)
-				<a href="{{ url('unfriend/'.$rows->id) }}"><button>Đã gửi lời mời kết bạn</button></a>
+			<div class="button">			
+				@if ($check == 0)
+				<a href="{{ url('/'.$rows->id.'-'.$rows->slug_user.'/them-ban-be') }}"><button>Thêm bạn bè</button></a>
+				@elseif ($status == 0)
+				<a href="{{ url('/'.$rows->id.'-'.$rows->slug_user.'/huy-ket-ban') }}"><button>Đã gửi lời mời kết bạn</button></a>
+				@elseif ($status == 1)
+				<a href="{{ url('/'.$rows->id.'-'.$rows->slug_user.'/huy-ket-ban') }}"><button style="background-color: blue; color: white">Bạn bè</button></a>
 				@else
+				<a href="{{ url('/'.$rows->id.'-'.$rows->slug_user.'/them-ban-be') }}"><button>Thêm bạn bè</button></a>
 				@endif
-				
+				<a href="{{ url('message/'.$rows->id) }}"><button><i class="fa fa-comments"></i>Nhắn tin</button></a>
 			</div>
 		</div>
 		<hr>

@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\view;
+namespace App\Http\Controllers\view\Search\User;
 
-use App\Services\UserServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Services\UserServices;
 use App\Http\Controllers\Controller;
-use App\Eloquent\Model\User;
 
-class FindUserController extends Controller
+class SearchController extends Controller
 {
     public $userServices;
 
@@ -22,12 +21,7 @@ class FindUserController extends Controller
     * @return \Illuminate\Contracts\Support\Renderable
     */
 
-    public function findfriend()
-    {
-        return view('layouts.findfriend');
-    }
-
-    public function searchFriendFullText(Request $request)
+    public function main(Request $request)
     {
         $validator = $this->getValidator($request);
         if ($validator->fails()) {
@@ -36,7 +30,7 @@ class FindUserController extends Controller
         $params = $this->getParams($request);
         $find = $params['find'];
         $query = $this->userServices->findUser($params);
-        return view('layouts.resultsfindfriend', compact('query'));
+        return view('layouts.friends.list-find', compact('query'));
     }
 
     private function getValidator(Request $request)
@@ -51,8 +45,8 @@ class FindUserController extends Controller
         return $request->only(['find']);
     }
 
-    public function resultfindfriend()
+    public function show()
     {
-        return view('layouts.resultsfindfriend');
+        return view('layouts.friends.list-find');
     }
 }

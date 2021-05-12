@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\view;
+namespace App\Http\Controllers\view\Search\User;
 
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Services\UserServices;
 use App\Http\Controllers\Controller;
 
-class HomeController extends Controller
+class IndexController extends Controller
 {
     public $userServices;
 
@@ -22,8 +23,6 @@ class HomeController extends Controller
 
     public function index()
     {
-        $myId = Auth::id();
-        $listFriend = $this->userServices->listFriend($myId);
-        return view('home', ['listFriend' => $listFriend]);
+        return view('layouts.friends.find');
     }
 }
